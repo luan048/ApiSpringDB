@@ -25,8 +25,10 @@ public class UserController {
         return ResponseEntity.created(URI.create("/v1/createUsr" + userId.toString())).build();
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/{userId}")
     public ResponseEntity<User> getById(@PathVariable("userId") String userId) {
-        return null;
+        var user = userService.getUserById(userId);
+
+        return user.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
     }
 }
